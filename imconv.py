@@ -157,7 +157,7 @@ def save_to_h(filename:str, result:list, w:int, h:int, items_per_row:int=8, comm
     return (hf, s_w, s_h, s_fl, s_d, s_fn)
 
 def main(filename:str, list_include:str="", list_struct:str="", output_folder:str=".", dest_w:int=16, dest_h:int=16, thr:int=127):
-    """Main function, it converts input image (RGB/RGBA) to SD1306 format
+    """Main function, it converts input image (RGB/RGBA) to SSD1306 format
     Let assume we have an image
      01234567              
     0*
@@ -169,7 +169,7 @@ def main(filename:str, list_include:str="", list_struct:str="", output_folder:st
     6     *
     7       *
 
-    Because SD1306 prints it by 8 x 1bpp pixels in column, the desination array is 
+    Because SSD1306 prints it by 8 x 1bpp pixels in column, the desination array is 
     0x01, 0x10, 0x02, 0x20, 0x04, 0x40, 0x08, 0x80
 
     The conversion happens by window scale_y x scale_x,. For each pixel
@@ -185,16 +185,16 @@ def main(filename:str, list_include:str="", list_struct:str="", output_folder:st
 
         The struct type definition is
         ================================
-        typedef uint8_t SD1306_Image_Geometry_t;
-        typedef uint8_t SD1306_Image_Flags_t;
-        typedef unsigned char SD1306_Image_Data_t;
+        typedef uint8_t SSD1306_Image_Geometry_t;
+        typedef uint8_t SSD1306_Image_Flags_t;
+        typedef unsigned char SSD1306_Image_Data_t;
 
         struct tag_ImageData
         {
-            SD1306_Image_Geometry_t w;
-            SD1306_Image_Geometry_t h;
-            SD1306_Image_Flags_t fl;
-            const SD1306_Image_Data_t * data;
+            SSD1306_Image_Geometry_t w;
+            SSD1306_Image_Geometry_t h;
+            SSD1306_Image_Flags_t fl;
+            const SSD1306_Image_Data_t * data;
             const char * filename;
         };
 
