@@ -275,9 +275,19 @@ def main(filename:str, list_include:str="", list_struct:str="", output_folder:st
     print(im.mode)
     print(im.info)
 
+    rgb_mode = False
+    i_mode = 65536
     has_alpha = im.has_transparency_data
-    if(not has_alpha and (im.mode == "RGBA")):
-        has_alpha = True
+    if(not has_alpha):
+        if(im.mode == "RGBA"):
+            has_alpha = True
+        elif (im.mode == "RGB"):
+            rgb_mode = True
+        else:
+            s = im.mode.split(";")
+            if(s[0] != "I"):
+                exit("ERROR Exit! Unsupported image format " + im.mode)
+            i_mode = 1 << int(s[1])
 
     comments += "Mode: " + str(im.mode) + "\n"
     comments += "Info: " + str(im.info) + "\n"
@@ -306,8 +316,12 @@ def main(filename:str, list_include:str="", list_struct:str="", output_folder:st
                     
                     if (has_alpha):
                         rgb = rgba2rgb(px[x + xx, y + yy])
-                    else:
+                    elif rgb_mode:
                         rgb = px[x + xx, y + yy]
+                    else:
+                        pxx = scale_crop(px[x + xx, y + yy], i_mode//256)
+                        rgb = [pxx, pxx, pxx]
+
                     vpx[idx] = get_y(color_invert(rgb))
                     
                     idx += 1
